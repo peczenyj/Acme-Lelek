@@ -13,6 +13,11 @@ encode/decode text to lelek code.
     say "original: " . $lek->decode($encoded);
 ```
 
+will output:
+
+encoded : AH lEk Lek lek lEK LEK LeK leK lEK
+original: LOL
+
 SEE ALSO
 ========
 

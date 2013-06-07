@@ -17,12 +17,12 @@ has base8  => (is => 'ro', default => sub {
 
 sub encode {
   my ($self, $msg) = @_;
-  join q( ), map { $leks[$_] } grep /[0-8]/, split q(), $self->base8->encode($msg);
+  "AH " . join q( ), map { $leks[$_] } grep /^[0-8]$/, split q(), $self->base8->encode($msg);
 }
 
 sub decode {
   my ($self, $msg) = @_;
-  $self->base8->decode(join q(), map { $octals{$_} } split(qr/\s+/, $msg));
+  $self->base8->decode(join q(), map { $octals{$_} } grep /^lek$/i, split(qr/\s+/, $msg));
 }
 
 1;
@@ -50,18 +50,18 @@ Acme::Lelek - encode/decode text to lelek code.
 Will encode the string in lelek code.
   
   $lek->encode("LOL");
-  # returns : "lEk Lek lek lEK LEK LeK leK lEK"
+  # returns : "AH lEk Lek lek lEK LEK LeK leK lEK"
 
 =head2 decode
 
 Will decode the lelek code
 
-  $lek->decode("lEk Lek lek lEK LEK LeK leK lEK");
+  $lek->decode("AH lEk Lek lek lEK LEK LeK leK lEK");
   # will return "LOL"
   
 =head1 SEE ALSO
 
 AH LELEK LEK LEK LEK LEK ( OFICIAL ) HD
-http://www.youtube.com/watch?v=E1AC_k9izjY
+L<http://www.youtube.com/watch?v=E1AC_k9izjY>
 
 =cut
