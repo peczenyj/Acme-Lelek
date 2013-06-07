@@ -17,7 +17,7 @@ has base8  => (is => 'ro', default => sub {
 
 sub encode {
   my ($self, $msg) = @_;
-  "AH " . join q( ), map { $leks[$_] } grep /^[0-8]$/, split q(), $self->base8->encode($msg);
+  'AH Le ' . join q( ), map { $leks[$_] } grep /^[0-8]$/, split q(), $self->base8->encode($msg);
 }
 
 sub decode {
@@ -50,13 +50,13 @@ Acme::Lelek - encode/decode text to lelek code.
 Will encode the string in lelek code.
   
   $lek->encode("LOL");
-  # returns : "AH lEk Lek lek lEK LEK LeK leK lEK"
+  # returns : "AH Le lEk Lek lek lEK LEK LeK leK lEK"
 
 =head2 decode
 
 Will decode the lelek code
 
-  $lek->decode("AH lEk Lek lek lEK LEK LeK leK lEK");
+  $lek->decode("AH Le lEk Lek lek lEK LEK LeK leK lEK");
   # will return "LOL"
   
 =head1 SEE ALSO
