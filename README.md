@@ -15,8 +15,8 @@ encode/decode text to lelek code.
 
 will output:
 
-encoded : AH lEk Lek lek lEK LEK LeK leK lEK
-original: LOL
+    encoded : AH lEk Lek lek lEK LEK LeK leK lEK
+    original: LOL
 
 SEE ALSO
 ========
