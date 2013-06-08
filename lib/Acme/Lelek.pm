@@ -1,28 +1,46 @@
 use strict;
 use warnings;
+
 package Acme::Lelek;
+{
+    $Acme::Lelek::VERSION = '1.003';
+}
 
 # ABSTRACT: encode/decode text to lelek code.
-
+use autobox::Core;
 use Convert::BaseN;
 use Const::Fast;
 use Moo;
 
+const my $lek_re => qr/^lek$/i;
 const my @leks   => qw(lek leK lEk Lek lEK LeK LEk LEK);
-const my %octals => map { $leks[$_] => $_ } 0..7;
+const my %octals => map { $leks[$_] => $_ } 0 .. 7;
 
-has base8  => (is => 'ro', default => sub { 
-  Convert::BaseN->new(base => 8) 
-});
+has base8 => (
+    is       => 'ro',
+    required => 1,
+    default  => sub {
+        Convert::BaseN->new( base => 8 );
+    }
+);
 
 sub encode {
-  my ($self, $msg) = @_;
-  'AH Le ' . join q( ), map { $leks[$_] } grep /^[0-8]$/, split q(), $self->base8->encode($msg);
+    my ( $self, $msg ) = @_;
+
+    $self->base8->encode($msg)->split('')->grep(qr/[0-7]/)
+      ->map( sub { $leks[$_] } )->unshift('AH Le')->join(' ');
 }
 
 sub decode {
-  my ($self, $msg) = @_;
-  $self->base8->decode(join q(), map { $octals{$_} } grep /^lek$/i, split(qr/\s+/, $msg));
+    my ( $self, $msg ) = @_;
+
+    $self->base8->decode(
+        $msg->split(qr/\s+/)->grep($lek_re)->map(
+            sub {
+                $octals{$_};
+            }
+          )->join('')
+    );
 }
 
 1;
