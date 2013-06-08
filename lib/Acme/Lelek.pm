@@ -3,45 +3,23 @@ use warnings;
 
 package Acme::Lelek;
 {
-    $Acme::Lelek::VERSION = '1.003';
+    $Acme::Lelek::VERSION = '1.004';
 }
 
 # ABSTRACT: encode/decode text to lelek code.
-use autobox::Core;
-use Convert::BaseN;
-use Const::Fast;
+use Convert::BaseFoo;
 use Moo;
 
-const my $lek_re => qr/^lek$/i;
-const my @leks   => qw(lek leK lEk Lek lEK LeK LEk LEK);
-const my %octals => map { $leks[$_] => $_ } 0 .. 7;
-
-has base8 => (
-    is       => 'ro',
-    required => 1,
-    default  => sub {
-        Convert::BaseN->new( base => 8 );
-    }
+has _lek => (
+    is      => 'ro',
+    default => sub {
+        Convert::BaseFoo->new(
+            prefix => q(AH Le),
+            words  => [qw(lek leK lEk Lek lEK LeK LEk LEK)]
+        );
+    },
+    handles => [qw(encode decode)]
 );
-
-sub encode {
-    my ( $self, $msg ) = @_;
-
-    $self->base8->encode($msg)->split('')->grep(qr/[0-7]/)
-      ->map( sub { $leks[$_] } )->unshift('AH Le')->join(' ');
-}
-
-sub decode {
-    my ( $self, $msg ) = @_;
-
-    $self->base8->decode(
-        $msg->split(qr/\s+/)->grep($lek_re)->map(
-            sub {
-                $octals{$_};
-            }
-          )->join('')
-    );
-}
 
 1;
 
