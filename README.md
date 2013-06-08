@@ -1,7 +1,7 @@
 Acme::Lelek
 ===========
 
-encode/decode text to lelek code.
+encode/decode text to lelek code. [![Build Status](https://travis-ci.org/peczenyj/Acme-Lelek.png?branch=master)](https://travis-ci.org/peczenyj/Acme-Lelek)
 
 ```perl
 use feature 'say';
